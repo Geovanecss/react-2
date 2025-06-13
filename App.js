@@ -6,7 +6,6 @@ export default function App() {
   const [message, setMessage] = useState('Chacoalhe o celular!');
   const [shakeDetected, setShakeDetected] = useState(false);
 
-  // Lista de mensagens motivacionais (armazenada localmente)
   const messages = [
     'Você é incrível!',
     'Hoje é seu dia de brilhar!',
@@ -17,10 +16,8 @@ export default function App() {
 
   useEffect(() => {
     let subscription;
-    // Configura o acelerômetro
     Accelerometer.setUpdateInterval(100);
 
-    // Detecta sacudidas
     subscription = Accelerometer.addListener(data => {
       const { x, y, z } = data;
       const acceleration = Math.sqrt(x * x + y * y + z * z);
@@ -29,13 +26,11 @@ export default function App() {
       }
     });
 
-    // Limpa a assinatura ao desmontar o componente
     return () => subscription && subscription.remove();
   }, []);
 
   useEffect(() => {
     if (shakeDetected) {
-      // Escolhe uma mensagem aleatória da lista local
       const randomMessage = messages[Math.floor(Math.random() * messages.length)];
       setMessage(randomMessage);
       setShakeDetected(false);
